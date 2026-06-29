@@ -1,6 +1,14 @@
 public class Solution06 {
     public static void main(String[] args) {
-        runOld();
+//        runOld();
+//        runNew();
+        Runnable r = () -> System.out.println("러너블이에용");
+        r.run();
+    }
+
+    static void runNew() {
+        CustomPrinter printer = (text) -> System.out.println("람다식에서 %s".formatted(text));
+        printer.print("Hello");
     }
 
     static void runOld() {
