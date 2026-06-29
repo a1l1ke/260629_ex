@@ -10,14 +10,18 @@ public class Solution07 {
     }
 
     static void runCustomSort() {
-        List<Integer> list = new ArrayList<>(List.of(-1, 3, -5, 7, -9)); // 절대값 기준으로 정렬가능? (부호가 없어진 것)
+//        List<Integer> list = new ArrayList<>(List.of(-1, 3, -5, 7, -9)); // 절대값 기준으로 정렬가능? (부호가 없어진 것)
+        List<Container> list = new ArrayList<>(List.of(new Container(99, -99), new Container(1, 2), new Container(2, 1))); // 절대값 기준으로 정렬가능? (부호가 없어진 것)
         // [e1, e2, ...]
 //        list.sort((e1, e2) -> e1 - e2); // e2가 더 크면 무조건 -가 되겠죠. (0). e1 +
         // -> 두 값을 비교할 때... 두 값의 차이를 반환하는데 +면 두 위치를 바꾼다. 0이나 -면 그대로 둔다.
 //        list.sort((e1, e2) -> e2 - e1); // 내림차순
-        list.sort((e1, e2) -> Math.abs(e1) - Math.abs(e2));
+//        list.sort((e1, e2) -> Math.abs(e1) - Math.abs(e2));
 //        list.sort(Comparator.comparingInt(Math::abs));
-
+        list.sort((e1, e2) -> e1.a() - e2.a()); // a 기준 오름차순
+//        list.sort(Comparator.comparing(Container::a));
+//        list.sort(Comparator.comparing(Container::b));
+        list.sort((e1, e2) -> e2.b() - e1.b()); // b 기준 내림차순
         System.out.println(list);
     }
 
