@@ -13,9 +13,9 @@ public class Solution03 {
     }
 
     static void runMap() {
-        Map<String, Long> map = new HashMap<>();
+        Map<String, Long> map = new HashMap<>(); // thread safe X. 유실문제.
         ConcurrentHashMap<String, Long> concurrentMap = new ConcurrentHashMap<>();
-        int limit = 30;
+        int limit = 1_000;
 
         ExecutorService executor = Executors.newFixedThreadPool(10);
         for (int i = 0; i < limit; i++) {
