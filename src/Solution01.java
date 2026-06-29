@@ -12,7 +12,7 @@ public class Solution01 {
                 // 이 스택 메모리는 병렬 호출되는 스레드마다 독립적임
                 System.out.println(Thread.currentThread().getName() + " / localCounter = " + localCounter);
                 try {
-                    Thread.sleep(10); // 교대 실행을 위한 대기
+                    Thread.sleep((long) (Math.random() * 100)); // 교대 실행을 위한 대기
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
