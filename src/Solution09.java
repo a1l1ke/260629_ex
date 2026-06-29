@@ -1,12 +1,31 @@
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.LongStream;
 
 public class Solution09 {
     public static void main(String[] args) {
         // stream, parallel
-        runStream();
+//        runStream();
+        runParallel();
     }
 
     record Singer(String name, int age, String country) {
+    }
+
+    static void runParallel() {
+        List<Long> list = new ArrayList<>();
+        int count = 100_000;
+//        IntStream
+        // range -> 시작점 포함, 끝점 미포함
+        // rangeClosed -> '', 끝점 포함
+        List<Long> result = LongStream.rangeClosed(1, count)
+                .parallel() // 스레드로 병렬처리 -> 경합.
+//                .forEach(list::add);
+                .boxed()
+//                .collect(Collectors.toList());
+                .toList(); // JDK16+
+        // 메서드 참조 -> 패러미터와 리턴 조건이 맞으면 스태틱/인스턴스 메서드를 람다처럼 쓸 수 있게
+        System.out.println("list.size() = " + list.size());
     }
 
     static void runStream() {
