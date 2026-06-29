@@ -21,6 +21,7 @@ public class Solution03 {
         for (int i = 0; i < limit; i++) {
             final int key = i;
             executor.execute(() -> {
+                System.out.println(Thread.currentThread().getName() + " / key = " + key);
                 map.put("key-%d".formatted(key), System.currentTimeMillis());
                 concurrentMap.put("key-%d".formatted(key), System.currentTimeMillis());
             });
