@@ -1,14 +1,42 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Solution03 {
     public static void main(String[] args) {
-        runAtomic();
+//        runAtomic();
+        runMap();
     }
 
     static void runMap() {
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Long> map = new HashMap<>();
+        ConcurrentHashMap<String, Long> concurrentMap = new ConcurrentHashMap<>();
+        int limit = 30;
+
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+        for (int i = 0; i < limit; i++) {
+            final int key = i;
+            executor.execute(() -> {
+                map.put("key-%d".formatted(key), System.currentTimeMillis());
+                concurrentMap.put("key-%d".formatted(key), System.currentTimeMillis());
+            });
+        }
+
+        executor.shutdown();
+        try {
+            executor.awaitTermination(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("map = " + map);
+        System.out.println("map.size() = " + map.size());
+        System.out.println("concurrentMap = " + concurrentMap);
+        System.out.println("concurrentMap.size() = " + concurrentMap.size());
     }
 
     static void runAtomic() {
