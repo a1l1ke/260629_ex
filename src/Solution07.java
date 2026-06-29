@@ -5,7 +5,23 @@ import java.util.List;
 public class Solution07 {
     public static void main(String[] args) {
         // 정렬 -> sort (하나의 차원 -> 데이터들을 나열하는 방식을 결정), align (화면 내 배치. 표현하려는 데이터들간의 관계. 화면상의 상대적 위치)
-        runSort();
+//        runSort();
+        runCustomSort();
+    }
+
+    static void runCustomSort() {
+        List<Integer> list = new ArrayList<>(List.of(-1, 3, -5, 7, -9)); // 절대값 기준으로 정렬가능? (부호가 없어진 것)
+        // [e1, e2, ...]
+//        list.sort((e1, e2) -> e1 - e2); // e2가 더 크면 무조건 -가 되겠죠. (0). e1 +
+        // -> 두 값을 비교할 때... 두 값의 차이를 반환하는데 +면 두 위치를 바꾼다. 0이나 -면 그대로 둔다.
+//        list.sort((e1, e2) -> e2 - e1); // 내림차순
+        list.sort((e1, e2) -> Math.abs(e1) - Math.abs(e2));
+//        list.sort(Comparator.comparingInt(Math::abs));
+
+        System.out.println(list);
+    }
+
+    static record Container(int a, int b) {
     }
 
     static void runSort() {
