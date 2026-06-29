@@ -1,6 +1,7 @@
 public class Solution01 {
-    public static void main(String[] args) {
-
+    //    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+        runIsolation(); // 메서드 시그니처에 throws
     }
 
     static void runIsolation() throws InterruptedException {
@@ -9,7 +10,7 @@ public class Solution01 {
             for (int i = 0; i < 5; i++) {
                 localCounter++; // 이 하나의 블록 내부에 있는 건 stack 메모리
                 // 이 스택 메모리는 병렬 호출되는 스레드마다 독립적임
-                System.out.println("Thread.currentThread().getName() = " + Thread.currentThread().getName() + " localCounter = " + localCounter);
+                System.out.println(Thread.currentThread().getName() + " / localCounter = " + localCounter);
                 try {
                     Thread.sleep(10); // 교대 실행을 위한 대기
                 } catch (InterruptedException e) {
