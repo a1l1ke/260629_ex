@@ -1,10 +1,54 @@
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Solution02 {
     public static void main(String[] args) throws InterruptedException {
 //        runSync();
-        runLock();
+//        runLock();
+        runTryLock();
+    }
+
+    static void runTryLock() throws InterruptedException {
+        ReentrantLock lock = new ReentrantLock();
+        Runnable task = () -> {
+            lock.lock();
+            try {
+                System.out.println(Thread.currentThread().getName() + " / lock");
+                Thread.sleep(Math.round(Math.random() * 3000));
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+                System.out.println(Thread.currentThread().getName() + " / unlock");
+                lock.unlock();
+            }
+        };
+        Runnable task2 = () -> {
+            // 1초는 기다림
+            try {
+                System.out.println("1초 내 락 획득 시도");
+                boolean getLock = lock.tryLock(1, TimeUnit.SECONDS);
+                if (getLock) {
+                    try {
+                        System.out.println("1초 내 락 획득 성공");
+                    } finally {
+                        lock.unlock();
+                    }
+                } else {
+                    System.out.println("1초 내 락 획득 실패");
+                    System.out.println("다른 작업한다");
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        };
+        Thread t = new Thread(task);
+        Thread t2 = new Thread(task2);
+
+        t.start();
+        t2.start();
+        t.join();
+        t2.join();
     }
 
     static void runLock() throws InterruptedException {
